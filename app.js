@@ -39,9 +39,9 @@ const numberElArray = [
   number9El,
 ];
 
-//Variables 
-
-
+//Variables
+let valueStrInMemory = null;
+let operatorInMemory = null;
 
 //functions
 
@@ -77,10 +77,30 @@ const handleNumberClick = (numStr) => {
 };
 
 const handleOperatorClick = (operation) => {
+  const currentValueStr = getValueAsStr();
+  const currentValueNum = getValueAsNum();
+  if (!valueStrInMemory) {
+    valueStrInMemory = currentValueStr;
+    operatorInMemory = operation;
+    setStrAsValue("0");
+    return;
+  }
+  const valueNumInMemory = parseFloat(valueStrInMemory);
+  let newValueNum;
+  if (operatorInMemory === "addition") {
+    newValueNum = valueNumInMemory + currentValueNum;
+  } else if (operatorInMemory === "subtraction") {
+    newValueNum = valueNumInMemory - currentValueNum;
+  } else if (operatorInMemory === "multiplication") {
+    newValueNum = valueNumInMemory - currentValueNum;
+  } else if (operatorInMemory === "division") {
+    newValueNum = valueNumInMemory - currentValueNum;
+  }
 
-}
-
-
+  valueStrInMemory = newValueNum.toString();
+  operatorInMemory = operation;
+  setStrAsValue("0");
+};
 //add Event Listeners to functions
 
 acEl.addEventListener("click", () => {
@@ -108,11 +128,10 @@ percentEl.addEventListener("click", () => {
   setStrAsValue(newValueNum.toString());
 });
 
-
 //add Event Listerners to operators
 
-additionEl.addEventListener('click', ()=> {
-handleOperatorClick('addition');
+additionEl.addEventListener("click", () => {
+  handleOperatorClick("addition");
 });
 subtractionEl.addEventListener("click", () => {
   handleOperatorClick("subtraction");
@@ -124,9 +143,7 @@ divisionEl.addEventListener("click", () => {
   handleOperatorClick("division");
 });
 
-equalEl.addEventListener('click', |(){
-
-})
+equalEl.addEventListener("click", () => {});
 
 //add Event Listeners to numbers and decimal
 
