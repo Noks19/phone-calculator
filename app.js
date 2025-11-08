@@ -39,6 +39,10 @@ const numberElArray = [
   number9El,
 ];
 
+//Variables 
+
+
+
 //functions
 
 const getValueAsStr = () => valueEl.textContent.split(",").join("");
@@ -47,18 +51,84 @@ const getValueAsNum = () => {
   return parseFloat(getValueAsStr());
 };
 
+const setStrAsValue = (valueStr) => {
+  if (valueStr[valueStr.length - 1] === ".") {
+    valueEl.textContent += ".";
+    return;
+  }
 
+  const [wholeNumStr, decimalStr] = valueStr.split(".");
+  if (decimalStr) {
+    valueEl.textContent =
+      parseFloat(wholeNumStr).toLocaleString() + "." + decimalStr;
+  } else {
+    valueEl.textContent = parseFloat(wholeNumStr).toLocaleString();
+  }
+  valueEl.textContent = parseFloat(valueStr).toLocaleString();
+};
 
 const handleNumberClick = (numStr) => {
   const currentValueStr = getValueAsStr();
   if (currentValueStr === "0") {
-    valueEl.textContent = numStr;
+    setStrAsValue(numStr);
   } else {
-    valueEl.textContent = parseFloat(currentValueStr + numStr).toLocaleString();
+    setStrAsValue(currentValueStr + numStr);
   }
 };
 
-//add Even listeners to numbers and decimal
+const handleOperatorClick = (operation) => {
+
+}
+
+
+//add Event Listeners to functions
+
+acEl.addEventListener("click", () => {
+  setStrAsValue("0");
+});
+pmEl.addEventListener("click", () => {
+  const currentValueStr = getValueAsStr();
+  const currentValueNum = getValueAsNum();
+
+  if (currentValueStr === "-0") {
+    setStrAsValue("0");
+    return;
+  }
+
+  if (currentValueNum >= 0) {
+    setStrAsValue("-" + currentValueStr);
+  } else {
+    setStrAsValue(currentValueStr.substring(1));
+  }
+});
+
+percentEl.addEventListener("click", () => {
+  const currentValueNum = getValueAsNum();
+  const newValueNum = currentValueNum / 100;
+  setStrAsValue(newValueNum.toString());
+});
+
+
+//add Event Listerners to operators
+
+additionEl.addEventListener('click', ()=> {
+handleOperatorClick('addition');
+});
+subtractionEl.addEventListener("click", () => {
+  handleOperatorClick("subtraction");
+});
+multiplicationEl.addEventListener("click", () => {
+  handleOperatorClick("multiplication");
+});
+divisionEl.addEventListener("click", () => {
+  handleOperatorClick("division");
+});
+
+equalEl.addEventListener('click', |(){
+
+})
+
+//add Event Listeners to numbers and decimal
 
 for (let i = 0; i < numberElArray.length; i++) {
   const numberEl = numberElArray[i];
@@ -70,7 +140,7 @@ for (let i = 0; i < numberElArray.length; i++) {
 decimalEl.addEventListener("click", () => {
   const currentValueStr = getValueAsStr();
   if (!currentValueStr.includes(".")) {
-    valueEl.textContent = currentValueStr + ".";
+    setStrAsValue(currentValueStr + ".");
   }
 });
 
