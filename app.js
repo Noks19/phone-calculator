@@ -2,7 +2,7 @@
 
 const hourEl = document.querySelector(".hour");
 const minuteEl = document.querySelector(".minute");
-const displayEl = document.querySelector(".display");
+const valueEl = document.querySelector(".value");
 
 const acEl = document.querySelector(".ac");
 const pmEl = document.querySelector(".pm");
@@ -41,11 +41,24 @@ const numberElArray = [
 
 //functions
 
-const handleNumberClick = (numStr) => {
-  const 
+const getValueAsStr = () => valueEl.textContent.split(",").join("");
+
+const getValueAsNum = () => {
+  return parseFloat(getValueAsStr());
 };
 
-//add Even listeners to numbers and buttons
+
+
+const handleNumberClick = (numStr) => {
+  const currentValueStr = getValueAsStr();
+  if (currentValueStr === "0") {
+    valueEl.textContent = numStr;
+  } else {
+    valueEl.textContent = parseFloat(currentValueStr + numStr).toLocaleString();
+  }
+};
+
+//add Even listeners to numbers and decimal
 
 for (let i = 0; i < numberElArray.length; i++) {
   const numberEl = numberElArray[i];
@@ -53,6 +66,13 @@ for (let i = 0; i < numberElArray.length; i++) {
     handleNumberClick(i.toString());
   });
 }
+
+decimalEl.addEventListener("click", () => {
+  const currentValueStr = getValueAsStr();
+  if (!currentValueStr.includes(".")) {
+    valueEl.textContent = currentValueStr + ".";
+  }
+});
 
 //Set up the time
 const updateTime = () => {
