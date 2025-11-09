@@ -186,8 +186,8 @@ const updateTime = () => {
     currentHour -= 24;
   }
 
-  hourEL.textContent = currentHour.toString();
-  minuteEL.textContent = currentMinute.toString().padStart(2, "0");
+  hourEl.textContent = currentHour.toString();
+  minuteEl.textContent = currentMinute.toString().padStart(2, "0");
 };
 setInterval(updateTime, 1000);
 updateTime();
